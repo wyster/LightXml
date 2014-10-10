@@ -1,11 +1,15 @@
 <?php
 
-namespace LightXml;
+namespace LightXml\Tests;
+
+use LightXml\Reader;
+use LightXml\SerializedItem;
+use LightXml\SerializedList;
 
 /**
  * @author Ilya Zelenin <wyster@make.im>
  */
-class TestsReader extends \PHPUnit_Framework_TestCase
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Reader
@@ -37,13 +41,13 @@ XML;
             'item' => [
                 'siteAttribute' => 'localhost',
                 'first' => [
-                    0        => 'test&nbsp;test',
-                    1        => '<b>&body;</b>',
+                    0 => 'test&nbsp;test',
+                    1 => '<b>&body;</b>',
                     'second' => [
                         0 => ['id' => 1],
                         1 => ['id' => 2]
                     ],
-                    'third'  => [
+                    'third' => [
                         'n1' => 'test',
                         'n2' => 'test2' . "\r\n" . 'test3'
                     ],
@@ -51,19 +55,23 @@ XML;
                         0 => 'first<br />test',
                         1 => 'second'
                     ],
-                    3        => [
+                    3 => [
                         'third first tag'
                     ]
                 ],
             ]
         ];
 
-        $resultXmlString = '<item site="localhost"><first>test&amp;nbsp;test</first><first>&lt;b&gt;&amp;body;&lt;/b&gt;<second><id>1</id></second><second><id>2</id></second><third><n1>test</n1><n2>test2' .
-            "\n" .
-            'test3</n2></third><fourth>first</fourth><fourth>second</fourth></first><first>third first tag</first></item>';
+        $resultXmlString = <<<XML
+<item site="localhost"><first>test&amp;nbsp;test</first><first>&lt;b&gt;&amp;body;&lt;/b&gt;<second><id>1</id></second><second><id>2</id></second><third><n1>test</n1><n2>test2
+test3</n2></third><fourth>first</fourth><fourth>second</fourth></first><first>third first tag</first></item>
+XML;
+
         $result = $this->target->fromString($resultXmlString);
-        //$this->assertTrue(is_array($result['first']));
-        //$this->assertTrue(is_array($result->first));
+        $this->assertFalse(is_array($result->first));
+        $this->assertFalse(is_array($result['first']));
+        $this->assertTrue(is_array($result['first']->getArrayCopy()));
+        $this->assertTrue(is_array($result->first->getArrayCopy()));
         $this->assertTrue($result['first'][1]['third'] instanceof SerializedItem);
         $this->assertTrue($result->first[1]->third instanceof SerializedItem);
         $this->assertTrue($result->first[1]->third->n1 === $item['item']['first']['third']['n1']);

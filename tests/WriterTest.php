@@ -1,13 +1,16 @@
 <?php
 
-namespace LightXml;
+namespace LightXml\Tests;
 
-use PHPUnit_Framework_TestCase;
+use LightXml\Writer;
+use LightXml\SerializedItem;
+use LightXml\SerializedList;
+use LightXml\ConfigWriter;
 
 /**
  * @author Ilya Zelenin <wyster@make.im>
  */
-class TestsWriter extends PHPUnit_Framework_TestCase
+class WriterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Writer
@@ -209,7 +212,5 @@ XML;
         $xml = '<?xml version="1.0" encoding="utf-8"?><main/>';
         $this->assertXmlStringEqualsXmlString($xml, $item);
         $this->assertXmlStringEqualsXmlString($xml, $item->toString());
-
-        echo $item->toString();
     }
 }

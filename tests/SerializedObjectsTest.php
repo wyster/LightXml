@@ -1,11 +1,13 @@
 <?php
 
-namespace LightXml;
+namespace LightXml\Tests;
+
+use LightXml\SerializedItem;
 
 /**
  * @author Ilya Zelenin <wyster@make.im>
  */
-class TestsSerializedObjects extends \PHPUnit_Framework_TestCase
+class SerializedObjectsTest extends \PHPUnit_Framework_TestCase
 {
     public function testData()
     {
