@@ -1,0 +1,22 @@
+{
+    "name"             : "wyster/LightXml",
+    "description"      : "Lightweight xml reader and writer",
+    "minimum-stability": "stable",
+    "authors"          : [
+        {
+            "name" : "Ilya Zelenin",
+            "email": "wyster@make.im"
+        }
+    ],
+    "require" : {
+        "php" : ">=5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "LightXml\\": "src/"
+        }
+    }
+}
