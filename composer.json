@@ -2,6 +2,7 @@
     "name"             : "wyster/light-xml",
     "description"      : "Lightweight xml reader and writer",
     "minimum-stability": "stable",
+    "license"          : "MIT",
     "authors"          : [
         {
             "name" : "Ilya Zelenin",
