@@ -1,5 +1,5 @@
 {
-    "name"             : "wyster/LightXml",
+    "name"             : "wyster/light-xml",
     "description"      : "Lightweight xml reader and writer",
     "minimum-stability": "stable",
     "authors"          : [
