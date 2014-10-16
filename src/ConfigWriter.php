@@ -18,7 +18,7 @@ class ConfigWriter extends AbstractConfig
     const SHIFT_KEYS_LEFT = 2;
 
     /**
-     * @var null|string
+     * @var string
      */
     public $rootNodeName = 'root';
     /**
@@ -44,7 +44,7 @@ class ConfigWriter extends AbstractConfig
      */
     public $cdata = TRUE;
     /**
-     * Смещение номерных ключей
+     * Offset numeric keys
      * @var int
      */
     public $numArrayKeys = self::SHIFT_KEYS_LEFT;

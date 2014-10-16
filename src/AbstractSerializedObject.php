@@ -13,16 +13,16 @@ abstract class AbstractSerializedObject extends ArrayObject
     /**
      * @var string
      */
-    protected $nodeName = 'root';
+    protected $nodeName = null;
 
     /**
-     * @param array  $input
-     * @param int    $flag
-     * @param string $iterator_class
+     * @param array $input
+     * @param mixed $nodeName
      */
-    public function __construct($input = [], $flag = ArrayObject::ARRAY_AS_PROPS, $iterator_class = "ArrayIterator")
+    public function __construct($input = [], $nodeName = null)
     {
-        parent::__construct($input, $flag, $iterator_class);
+        $this->setNodeName($nodeName);
+        parent::__construct($input);
     }
 
     /**

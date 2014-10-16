@@ -8,4 +8,8 @@ namespace LightXml;
  */
 class ConfigReader extends AbstractConfig
 {
+    /**
+     * @var string
+     */
+    public $outputCharset = 'utf-8';
 }

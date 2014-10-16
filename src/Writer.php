@@ -72,17 +72,11 @@ class Writer implements WriterInterface
         $dom = new DOMDocument('1.0', $this->config->documentCharset);
         $dom->preserveWhiteSpace = $this->config->preserveWhiteSpace;
         $dom->formatOutput = $this->config->formatOutput;
-        $root = $dom->createElement($this->config->rootNodeName === null ? 'root' : $this->config->rootNodeName);
+        $root = $dom->createElement($this->config->rootNodeName ?: 'root');
         $this->createNodes($data, $root, $dom);
         $dom->appendChild($root);
 
-        // Если xml тег объявлен
-        if ($this->config->xmlDeclaration === true) {
-            return $dom->saveXML();
-        }
-
-        // Если вывод только переданных элементов без root
-        if ($this->config->rootNodeName === null) {
+        if ($this->config->rootNodeName === false) {
             $xml = '';
             foreach ($root->childNodes as $node) {
                 $xml .= $dom->saveXML($node);
@@ -91,18 +85,23 @@ class Writer implements WriterInterface
             return $xml;
         }
 
+        if ($this->config->xmlDeclaration === true) {
+            return $dom->saveXML();
+        }
+
         $xml = $dom->saveXML($root);
 
         return $xml;
     }
 
     /**
-     * @param mixed $vars
-     * @param DOMElement   $currentNode
-     * @param DOMDocument  $dom
-     * @param DOMElement   $parentNode
+     * @param mixed       $vars
+     * @param DOMElement  $currentNode
+     * @param DOMDocument $dom
+     * @param DOMElement  $parentNode
+     * @param bool        $isList
      */
-    private function createNodes($vars, &$currentNode, &$dom, $parentNode = null)
+    private function createNodes($vars, &$currentNode, &$dom, $parentNode = null, $isList = false)
     {
         $append = function (DOMElement &$newNode, $value) use ($dom) {
             // Если нужно оборачивать в cdata
@@ -126,16 +125,20 @@ class Writer implements WriterInterface
                 continue;
             }
 
+            if ($value instanceof AbstractSerializedObject && $value->getNodeName()) {
+                $propertyName = $value->getNodeName();
+            }
+
             if ($value instanceof AbstractSerializedObject || is_array($value) || is_object($value)) {
                 if (filter_var($propertyName, FILTER_VALIDATE_INT) !== false) {
                     if ($this->config->numArrayKeys === ConfigWriter::SHIFT_KEYS_LEFT) {
                         if ($parentNode !== null) {
                             $currentNode = $dom->createElement($currentNode->nodeName);
-                            $this->createNodes($value, $currentNode, $dom, $parentNode);
+                            $this->createNodes($value, $currentNode, $dom, $parentNode, true);
                             $parentNode->appendChild($currentNode);
                         } else {
                             $temp = $currentNode;
-                            $this->createNodes($value, $temp, $dom, $currentNode);
+                            $this->createNodes($value, $temp, $dom, $currentNode, true);
                         }
                         continue;
                     }
@@ -146,7 +149,7 @@ class Writer implements WriterInterface
                                     $rForeach($value);
                                     continue;
                                 }
-                                $this->createNodes([$propertyName => $value], $currentNode, $dom, $parentNode);
+                                $this->createNodes([$propertyName => $value], $currentNode, $dom, $parentNode, true);
                             }
                         };
                         $rForeach($value);

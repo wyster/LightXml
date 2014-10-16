@@ -27,13 +27,12 @@ class WriterTest extends \PHPUnit_Framework_TestCase
         $object = new SerializedItem([
             'id' => 1,
             'value' => 'bar'
-        ]);
+        ], 'root');
 
         $xmlString = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
 <root><id>1</id><value>bar</value></root>
 XML;
-
         $this->assertXmlStringEqualsXmlString($xmlString, $object);
 
         $object = new SerializedList([
@@ -49,14 +48,13 @@ XML;
                 'id' => 3,
                 'value' => 'bag'
             ])
-        ]);
+        ], 'item');
         $object->setNodeName('item');
 
         $xmlString = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
 <item><id>1</id><value>bar</value><id>2</id><value>baz</value><id>3</id><value>bag</value></item>
 XML;
-
         $this->assertXmlStringEqualsXmlString($xmlString, $object);
     }
 
@@ -199,18 +197,41 @@ XML;
         $this->assertXmlStringEqualsXmlString($xml, $serialize->toString($data));
     }
 
-    public function testSerialized()
+    public function testAbstractSerializedObject()
     {
-        $item = new SerializedItem();
+        $item = new SerializedItem([], 'root');
 
-        $xml = '<?xml version="1.0" encoding="utf-8"?><root/>';
+        $xml = '<root/>';
         $this->assertXmlStringEqualsXmlString($xml, $item);
         $this->assertXmlStringEqualsXmlString($xml, $item->toString());
 
         $item->setNodeName('main');
 
-        $xml = '<?xml version="1.0" encoding="utf-8"?><main/>';
+        $xml = '<main/>';
         $this->assertXmlStringEqualsXmlString($xml, $item);
         $this->assertXmlStringEqualsXmlString($xml, $item->toString());
+
+        $xml = '<item><id>1</id><value>foo</value></item>';
+        $item = new SerializedItem(['item' => ['id' => 1, 'value' => 'foo']], FALSE);
+        $this->assertXmlStringEqualsXmlString($xml, $item);
+        $this->assertXmlStringEqualsXmlString($xml, $item->toString());
+
+        $xml = '<item><id>1</id><value>foo</value></item>';
+        $item = new SerializedItem(['id' => 1, 'value' => 'foo'], 'item');
+        $this->assertXmlStringEqualsXmlString($xml, $item);
+        $this->assertXmlStringEqualsXmlString($xml, $item->toString());
+
+        $xml = '<root><item><id>2</id><value>bar</value></item><item><id>1</id><value>foo</value></item></root>';
+        $item = new SerializedList([
+            new SerializedItem(['id' => 2, 'value' => 'bar'], 'item'),
+            new SerializedItem(['id' => 1, 'value' => 'foo'], 'item')
+        ], 'root');
+        $this->assertXmlStringEqualsXmlString($xml, $item);
+        $this->assertXmlStringEqualsXmlString($xml, $item->toString());
+
+        $xmlString = '<root><id>1</id><value>foo</value></root>';
+        $item = new SerializedItem(['id' => 1, 'value' => 'foo'], 'root');
+        $this->assertXmlStringEqualsXmlString($xmlString, $item);
+        $this->assertXmlStringEqualsXmlString($xmlString, $item->toString());
     }
 }

@@ -11,12 +11,12 @@ class Reader implements ReaderInterface
     private $previous_nodes = [];
 
     /**
-     * @var ConfigWriter
+     * @var ConfigReader
      */
     protected $config;
 
     /**
-     * @param array|Closure|ConfigWriter $config
+     * @param array|Closure|ConfigReader $config
      */
     public function __construct($config = null)
     {
@@ -24,20 +24,20 @@ class Reader implements ReaderInterface
     }
 
     /**
-     * @param array|Closure|ConfigWriter $config
+     * @param array|Closure|ConfigReader $config
      */
     protected function setConfig($config)
     {
         if ($this->config === null) {
-            $this->config = new ConfigWriter();
+            $this->config = new ConfigReader();
         }
         if ($config === null) {
             return;
         }
         if (is_array($config)) {
-            $this->config = new ConfigWriter($config);
+            $this->config = new ConfigReader($config);
         }
-        if ($config instanceof ConfigWriter) {
+        if ($config instanceof ConfigReader) {
             $this->config = $config;
         }
         if ($config instanceof \Closure) {
@@ -47,7 +47,7 @@ class Reader implements ReaderInterface
 
     /**
      * Set, get config
-     * @param array|Closure|ConfigWriter $config
+     * @param array|Closure|ConfigReader $config
      * @return mixed
      */
     public function config($config = null)
@@ -66,9 +66,9 @@ class Reader implements ReaderInterface
      */
     public function fromString($string)
     {
-        $this->result = NULL;
+        $this->result = null;
 
-        $xmlParser = xml_parser_create($this->config->documentCharset);
+        $xmlParser = xml_parser_create($this->config->outputCharset);
         xml_parser_set_option($xmlParser, XML_OPTION_CASE_FOLDING, false);
         xml_set_element_handler($xmlParser, [$this, 'findNewElement'], [$this, 'findEndElement']);
         xml_set_character_data_handler($xmlParser, [$this, 'findTextElement']);
@@ -91,7 +91,6 @@ class Reader implements ReaderInterface
     protected function convertParsingResult($node)
     {
         $resultArray = new SerializedItem();
-        $resultArray->setNodeName($node['name']);
         $nodes = $node['childs'];
         $attributes = $node['attributes'];
 
@@ -111,10 +110,7 @@ class Reader implements ReaderInterface
                 if ($resultArray[$child_node['name']] instanceof SerializedList) {
                     $resultArray[$child_node['name']]->append($this->convertParsingResult($child_node));
                 } else {
-                    $previousValue = $resultArray[$child_node['name']];
-                    $objectList = new SerializedList([$previousValue, $this->convertParsingResult($child_node)]);
-                    $objectList->setNodeName($child_node['name']);
-                    $resultArray[$child_node['name']] = $objectList;
+                    $resultArray[$child_node['name']] = new SerializedList([$resultArray[$child_node['name']], $this->convertParsingResult($child_node)], $child_node['name']);;
                 }
             } else {
                 $resultArray[$child_node['name']] = $this->convertParsingResult($child_node);
@@ -125,9 +121,9 @@ class Reader implements ReaderInterface
     }
 
     /**
-     * @param $parser
+     * @param        $parser
      * @param string $name
-     * @param array $nodeAttributes
+     * @param array  $nodeAttributes
      */
     protected function findNewElement($parser, $name, $nodeAttributes)
     {
