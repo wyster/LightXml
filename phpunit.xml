@@ -2,7 +2,7 @@
 <phpunit
         backupGlobals="false"
         colors="true"
-        bootstrap="vendor/autoload.php">
+        bootstrap="autoload.php">
     <testsuites>
         <testsuite name="LightXml">
             <directory>tests/</directory>
