@@ -93,7 +93,7 @@ XML;
                     3 => [
                         'third first tag'
                     ]
-                ],
+                ]
             ]
         ];
 
@@ -145,7 +145,7 @@ XML;
                     'node3' => [
                         'item' => 'result'
                     ]
-                ],
+                ]
             ],
             [
                 [
@@ -190,7 +190,7 @@ XML;
                     'node' => [
                         'item' => 'result'
                     ]
-                ],
+                ]
             ]
         ];
 

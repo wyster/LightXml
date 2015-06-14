@@ -99,9 +99,8 @@ class Writer implements WriterInterface
      * @param DOMElement  $currentNode
      * @param DOMDocument $dom
      * @param DOMElement  $parentNode
-     * @param bool        $isList
      */
-    private function createNodes($vars, &$currentNode, &$dom, $parentNode = null, $isList = false)
+    private function createNodes($vars, &$currentNode, &$dom, $parentNode = null)
     {
         $append = function (DOMElement &$newNode, $value) use ($dom) {
             // Если нужно оборачивать в cdata
@@ -134,11 +133,11 @@ class Writer implements WriterInterface
                     if ($this->config->numArrayKeys === ConfigWriter::SHIFT_KEYS_LEFT) {
                         if ($parentNode !== null) {
                             $currentNode = $dom->createElement($currentNode->nodeName);
-                            $this->createNodes($value, $currentNode, $dom, $parentNode, true);
+                            $this->createNodes($value, $currentNode, $dom, $parentNode);
                             $parentNode->appendChild($currentNode);
                         } else {
                             $temp = $currentNode;
-                            $this->createNodes($value, $temp, $dom, $currentNode, true);
+                            $this->createNodes($value, $temp, $dom, $currentNode);
                         }
                         continue;
                     }
@@ -149,7 +148,7 @@ class Writer implements WriterInterface
                                     $rForeach($value);
                                     continue;
                                 }
-                                $this->createNodes([$propertyName => $value], $currentNode, $dom, $parentNode, true);
+                                $this->createNodes([$propertyName => $value], $currentNode, $dom, $parentNode);
                             }
                         };
                         $rForeach($value);

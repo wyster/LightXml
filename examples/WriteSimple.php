@@ -1,6 +1,6 @@
 <?php
 
-require '../vendor/autoload.php';
+require '../autoload.php';
 
 /**
  * @author Ilya Zelenin <wyster@make.im>

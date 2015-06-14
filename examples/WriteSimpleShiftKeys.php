@@ -1,6 +1,6 @@
 <?php
 
-require '../vendor/autoload.php';
+require '../autoload.php';
 
 /**
  * If you need to generate XML alternating nodes, use setting numArrayKeys with value \LightXml\ConfigWriter::SHIFT_KEYS_RIGHT
@@ -30,7 +30,7 @@ $array = [
                 'id' => 2,
                 'value' => 'baz'
             ]
-        ],
+        ]
 ];
 
 $writer = new \LightXml\Writer(['numArrayKeys' => \LightXml\ConfigWriter::SHIFT_KEYS_RIGHT]);

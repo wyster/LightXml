@@ -1,6 +1,6 @@
 <?php
 
-require '../vendor/autoload.php';
+require '../autoload.php';
 
 /**
  * @author Ilya Zelenin <wyster@make.im>
@@ -11,4 +11,4 @@ $xmlString = <<<XML
 XML;
 
 $writer = new \LightXml\Reader();
-var_dump($writer->fromString($xmlString));
+print_r($writer->fromString($xmlString));

@@ -27,8 +27,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 <?xml version="1.0" encoding="utf-8"?>
 <root><item><id>1</id><value>bar</value></item><item><id>2</id><value>baz</value></item><item><id>3</id><value>bag</value></item><item2><value>bar</value><value>bar2</value><value>bar3</value></item2></root>
 XML;
-        $reader = new Reader();
-        $result = $reader->fromString($xmlString);
+        $result = $this->target->fromString($xmlString);
         $this->assertFalse($result['item'] instanceof SerializedItem);
         $this->assertTrue($result['item'] instanceof SerializedList);
         $this->assertTrue($result->item instanceof SerializedList);
@@ -58,7 +57,7 @@ XML;
                     3 => [
                         'third first tag'
                     ]
-                ],
+                ]
             ]
         ];
 
