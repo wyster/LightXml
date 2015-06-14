@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/wyster/LightXml.svg?branch=master)](https://travis-ci.org/wyster/LightXml)
+
 LightXml
 ========
 Lightweight xml reader and writer
