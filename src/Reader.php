@@ -96,7 +96,7 @@ class Reader extends AbstractConfig implements ReaderInterface
     /**
      * @param        $parser
      * @param string $name
-     * @param array  $nodeAttributes
+     * @param array $nodeAttributes
      */
     protected function findNewElement($parser, $name, $nodeAttributes)
     {

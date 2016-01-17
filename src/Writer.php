@@ -65,10 +65,10 @@ class Writer extends AbstractConfig implements WriterInterface
     }
 
     /**
-     * @param mixed       $vars
-     * @param DOMElement  $currentNode
+     * @param mixed $vars
+     * @param DOMElement $currentNode
      * @param DOMDocument $dom
-     * @param DOMElement  $parentNode
+     * @param DOMElement $parentNode
      */
     private function createNodes($vars, &$currentNode, &$dom, $parentNode = null)
     {

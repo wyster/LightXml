@@ -1,5 +1,6 @@
 <?php
 namespace Config;
+
 use LightXml\Config\AbstractConfig;
 use LightXml\Config\Reader as ConfigReader;
 
@@ -21,8 +22,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('windows-1251', $stub->outputCharset);
 
-        $stub->exchangeArray(function($config) {
-            $this->assertTrue($config  instanceof AbstractConfig);
+        $stub->exchangeArray(function ($config) {
+            $this->assertTrue($config instanceof AbstractConfig);
         });
 
         $readerConfig = new ConfigReader();
