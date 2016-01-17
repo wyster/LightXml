@@ -2,12 +2,14 @@
 
 namespace LightXml;
 
+use Closure;
+
 /**
  * @author Ilya Zelenin <wyster@make.im>
  */
 class Reader implements ReaderInterface
 {
-    private $result = null;
+    private $result = [];
     private $previous_nodes = [];
 
     /**

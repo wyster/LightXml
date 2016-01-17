@@ -2,6 +2,9 @@
 <phpunit
         backupGlobals="false"
         colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
         bootstrap="autoload.php">
     <testsuites>
         <testsuite name="LightXml">

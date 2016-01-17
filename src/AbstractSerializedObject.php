@@ -3,6 +3,7 @@
 namespace LightXml;
 
 use ArrayObject;
+use Closure;
 
 /**
  * @author Ilya Zelenin <wyster@make.im>

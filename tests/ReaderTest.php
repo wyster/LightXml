@@ -75,4 +75,13 @@ XML;
         $this->assertTrue($result->first[1]->third instanceof SerializedItem);
         $this->assertTrue($result->first[1]->third->n1 === $item['item']['first']['third']['n1']);
     }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testException()
+    {
+        $xmlString = '<?xml version="1.0" encoding="utf-8"?><root><item><id>1</item>';
+        $this->target->fromString($xmlString);
+    }
 }

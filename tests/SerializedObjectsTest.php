@@ -44,6 +44,8 @@ class SerializedObjectsTest extends \PHPUnit_Framework_TestCase
 
         $xmlString = '<root><id>1</id><value>foo</value></root>';
         $item = new SerializedItem(['id' => 1, 'value' => 'foo'], 'root');
+        $this->assertTrue(isset($item->id));
+        $this->assertFalse(isset($item->test));
         $this->assertXmlStringEqualsXmlString($xmlString, $item);
         $this->assertXmlStringEqualsXmlString($xmlString, $item->toString());
     }
