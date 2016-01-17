@@ -15,15 +15,16 @@ abstract class AbstractConfig
      */
     public function __construct($config = NULL)
     {
-        $this->setConfig($config);
+        $this->exchangeArray($config);
     }
 
     /**
-     * @param array|Closure $config
+     * @param array|object|Closure|AbstractConfig $config
+     * @return $this
      */
-    public function setConfig($config)
+    public function exchangeArray($config)
     {
-        if (is_array($config) && count($config) > 0) {
+        if (is_array($config) || is_object($config) || $config instanceof \LightXml\AbstractConfig) {
             foreach ($config as $param => $value) {
                 if (property_exists($this, $param)) {
                     $this->{$param} = $value;
@@ -34,5 +35,7 @@ abstract class AbstractConfig
         if ($config instanceof Closure) {
             $config($this);
         }
+
+        return $this;
     }
 } 

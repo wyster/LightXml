@@ -22,20 +22,10 @@ abstract class AbstractConfig
 
     /**
      * @param array|object|Closure|Config\AbstractConfig $config
+     * @return $this
      */
     public function setConfig($config)
     {
-        if ($config === null) {
-            return;
-        }
-        if (is_array($config) || is_object($config)) {
-            $this->getConfig()->setConfig($config);
-        }
-        if ($config instanceof Config\AbstractConfig) {
-            $this->config = $config;
-        }
-        if ($config instanceof Closure) {
-            $config($this->getConfig());
-        }
+        return $this->getConfig()->exchangeArray($config);
     }
 }
