@@ -7,19 +7,6 @@ Lightweight xml reader and writer
 
 Installation
 ========
-```$ composer require wyster/light-xml```
-
-Or
-
-Add this line to your ```composer.json``` file: 
-```javascript
-{
-    "require": {
-        "wyster/light-xml": "dev-master"
-    }
-}
 ```
-And call from the console:
-```
-$ composer install
+$ composer require wyster/light-xml
 ```
