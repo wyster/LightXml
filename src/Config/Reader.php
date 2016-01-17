@@ -1,12 +1,12 @@
 <?php
 
-namespace LightXml;
+namespace LightXml\Config;
 
 /**
  * @author Ilya Zelenin <wyster@make.im>
- * @package LightXml
+ * @package LightXml\Config
  */
-class ConfigReader extends AbstractConfig
+class Reader extends AbstractConfig
 {
     /**
      * @var string

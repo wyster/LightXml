@@ -1,12 +1,12 @@
 <?php
 
-namespace LightXml;
+namespace LightXml\Config;
 
 /**
  * @author Ilya Zelenin <wyster@make.im>
- * @package LightXml
+ * @package LightXml\Config
  */
-class ConfigWriter extends AbstractConfig
+class Writer extends AbstractConfig
 {
     /**
      * Смещение номерных ключей вправо

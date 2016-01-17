@@ -2,10 +2,10 @@
 
 namespace LightXml\Tests;
 
-use LightXml\Writer;
+use LightXml\Config\Writer as ConfigWriter;
 use LightXml\SerializedItem;
 use LightXml\SerializedList;
-use LightXml\ConfigWriter;
+use LightXml\Writer;
 
 /**
  * @author Ilya Zelenin <wyster@make.im>
@@ -105,7 +105,7 @@ XML;
 
         $this->assertXmlStringEqualsXmlString($resultXmlString, $this->target->toString($xmlArray));
 
-        $this->target->config(['cdata' => false]);
+        $this->target->setConfig(['cdata' => false]);
         $xmlString = $this->target->toString($xmlArray);
         $resultXmlString = <<<XML
 <?xml version="1.0" encoding="utf-8"?>

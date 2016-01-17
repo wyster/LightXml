@@ -11,20 +11,31 @@ use Closure;
 abstract class AbstractConfig
 {
     /**
-     * @param array|Closure $config
+     * @var Config\AbstractConfig
      */
-    public function __construct($config = NULL)
-    {
-        if (is_array($config) && count($config) > 0) {
-            foreach ($config as $param => $value) {
-                if (property_exists($this, $param)) {
-                    $this->{$param} = $value;
-                }
-            }
-        }
+    protected $config;
 
+    /**
+     * @return Config\AbstractConfig
+     */
+    abstract public function getConfig();
+
+    /**
+     * @param array|object|Closure|Config\AbstractConfig $config
+     */
+    public function setConfig($config)
+    {
+        if ($config === null) {
+            return;
+        }
+        if (is_array($config) || is_object($config)) {
+            $this->getConfig()->setConfig($config);
+        }
+        if ($config instanceof Config\AbstractConfig) {
+            $this->config = $config;
+        }
         if ($config instanceof Closure) {
-            $config($this);
+            $config($this->getConfig());
         }
     }
-} 
+}

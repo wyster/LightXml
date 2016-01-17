@@ -3,19 +3,16 @@
 namespace LightXml;
 
 use Closure;
+use LightXml\Config\Reader as ConfigReader;
 
 /**
  * @author Ilya Zelenin <wyster@make.im>
+ * @package LightXml
  */
-class Reader implements ReaderInterface
+class Reader extends AbstractConfig implements ReaderInterface
 {
     private $result = [];
     private $previous_nodes = [];
-
-    /**
-     * @var ConfigReader
-     */
-    protected $config;
 
     /**
      * @param array|Closure|ConfigReader $config
@@ -26,41 +23,15 @@ class Reader implements ReaderInterface
     }
 
     /**
-     * @param array|Closure|ConfigReader $config
+     * @return ConfigReader
      */
-    protected function setConfig($config)
+    public function getConfig()
     {
         if ($this->config === null) {
             $this->config = new ConfigReader();
         }
-        if ($config === null) {
-            return;
-        }
-        if (is_array($config)) {
-            $this->config = new ConfigReader($config);
-        }
-        if ($config instanceof ConfigReader) {
-            $this->config = $config;
-        }
-        if ($config instanceof \Closure) {
-            $config($this->config);
-        }
-    }
 
-    /**
-     * Set, get config
-     * @param array|Closure|ConfigReader $config
-     * @return mixed
-     */
-    public function config($config = null)
-    {
-        if ($config === null) {
-            return $this->config;
-        }
-
-        $this->setConfig($config);
-
-        return $this;
+        return $this->config;
     }
 
     /**
@@ -70,7 +41,7 @@ class Reader implements ReaderInterface
     {
         $this->result = null;
 
-        $xmlParser = xml_parser_create($this->config->outputCharset);
+        $xmlParser = xml_parser_create($this->getConfig()->outputCharset);
         xml_parser_set_option($xmlParser, XML_OPTION_CASE_FOLDING, false);
         xml_set_element_handler($xmlParser, [$this, 'findNewElement'], [$this, 'findEndElement']);
         xml_set_character_data_handler($xmlParser, [$this, 'findTextElement']);

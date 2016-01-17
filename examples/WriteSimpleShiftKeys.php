@@ -3,7 +3,7 @@
 require '../autoload.php';
 
 /**
- * If you need to generate XML alternating nodes, use setting numArrayKeys with value \LightXml\ConfigWriter::SHIFT_KEYS_RIGHT
+ * If you need to generate XML alternating nodes, use setting numArrayKeys with value \LightXml\Config\ConfigWriter::SHIFT_KEYS_RIGHT
  * @author Ilya Zelenin <wyster@make.im>
  */
 $array = [
@@ -33,6 +33,6 @@ $array = [
         ]
 ];
 
-$writer = new \LightXml\Writer(['numArrayKeys' => \LightXml\ConfigWriter::SHIFT_KEYS_RIGHT]);
+$writer = new \LightXml\Writer(['numArrayKeys' => \LightXml\Config\Writer::SHIFT_KEYS_RIGHT]);
 echo $writer->toString($array);
 

@@ -4,6 +4,7 @@ namespace LightXml;
 
 use ArrayObject;
 use Closure;
+use LightXml\Config\Writer as ConfigWriter;
 
 /**
  * @author Ilya Zelenin <wyster@make.im>
