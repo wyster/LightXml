@@ -49,4 +49,5 @@ crashlytics-build.properties
 
 ### Composer template
 composer.phar
+composer.lock
 vendor/
